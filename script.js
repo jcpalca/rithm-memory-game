@@ -27,12 +27,7 @@ restartBtn.addEventListener("click", restartGame);
 function startGame() {
   startGameWindow.style.display = "none";
   totalShadow.style.display = "block";
-  if(window.localStorage.length === 0) {
-    window.localStorage.setItem("score", Infinity);
-  }
-  else {
-    bestScore.textContent = window.localStorage.getItem("score");
-  }
+  isFirstGame();
   window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
 
@@ -142,6 +137,15 @@ function disableCards() {
 function updateScore() {
   for(let guess of guesses) {
     guess.textContent = num;
+  }
+}
+
+function isFirstGame() {
+  if(window.localStorage.length === 0) {
+    window.localStorage.setItem("score", Infinity);
+  }
+  else {
+    bestScore.textContent = window.localStorage.getItem("score");
   }
 }
 

@@ -2,10 +2,12 @@
 
 /** Memory game: find matching pairs of cards and flip both of them. */
 
-const startBtn = document.querySelector(".start-game-button")
-const totalShadow = document.querySelector(".total-shadow")
+const startGameWindow = document.querySelector(".start-game-window");
+const startBtn = document.querySelector(".start-game-button");
+const totalShadow = document.querySelector(".total-shadow");
 const gameBoard = document.getElementById("game");
 const guesses = document.querySelectorAll(".score");
+const winScreen = document.querySelector(".win");
 const restartBtn = document.querySelector(".restart");
 const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
@@ -22,8 +24,8 @@ startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
 
 function startGame() {
-  document.querySelector(".start-game-window").style.display = "none";
-  document.querySelector(".total-shadow").style.display = "block";
+  startGameWindow.style.display = "none";
+  totalShadow.style.display = "block";
   window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
 
@@ -139,8 +141,8 @@ function updateScore() {
 function isGameOver() {
   const unFlipped = document.querySelectorAll(".unflipped");
   if(unFlipped.length === 0) {
-    document.querySelector(".total-shadow").style.display = "none";
-    document.querySelector(".win").style.display = "flex";
+    totalShadow.style.display = "none";
+    winScreen.style.display = "flex";
   }
 }
 
@@ -150,6 +152,6 @@ function restartGame() {
     card.remove();
   }
   createCards(shuffle(COLORS));
-  document.querySelector(".total-shadow").style.display = "block";
-  document.querySelector(".win").style.display = "none";
+  totalShadow.style.display = "block";
+  winScreen.style.display = "none";
 }

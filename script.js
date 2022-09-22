@@ -154,4 +154,6 @@ function restartGame() {
   createCards(shuffle(COLORS));
   totalShadow.style.display = "block";
   winScreen.style.display = "none";
+  num = 0;
+  updateScore();
 }

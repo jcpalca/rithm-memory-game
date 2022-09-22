@@ -20,7 +20,7 @@ body {
 /*==================================*/
 /*============GAME BOARD============*/
 /*==================================*/
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
   margin-top: 20px;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -45,7 +45,8 @@ h1, h2 {
   transform: scale(1);
 }
 
-.card:hover {
+.card:hover, .start-game-button:hover, .restart:hover {
+  cursor: pointer;
   transform: scale(.98);
   transition: transform .25s;
 }
@@ -57,7 +58,7 @@ h1, h2 {
 /*==================================*/
 /*===========START WINDOW===========*/
 /*==================================*/
-.start-game-window {
+.start-game-window, .win {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -66,7 +67,7 @@ h1, h2 {
   flex-direction: column;
 }
 
-.start-game-button {
+.start-game-button, .restart {
   width: 100px;
   height: 40px;
   margin-top: 10px;
@@ -75,10 +76,12 @@ h1, h2 {
   background-color:rgb(134, 138, 141);
   border-radius: 10px;
   transform: scale(1);
+  margin: 10 auto 0;
 }
 
-.start-game-button:hover {
-  cursor: pointer;
-  transform: scale(.98);
-  transition: transform .25s;
+/*==================================*/
+/*============WIN SCREEN============*/
+/*==================================*/
+.win {
+  display: none;
 }

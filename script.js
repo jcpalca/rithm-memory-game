@@ -8,6 +8,7 @@ const totalShadow = document.querySelector(".total-shadow");
 const gameBoard = document.getElementById("game");
 const bestScore = document.querySelector(".best-score")
 const guesses = document.querySelectorAll(".score");
+const resetBestScore = document.querySelector(".reset-best-score")
 const winScreen = document.querySelector(".win");
 const restartBtn = document.querySelector(".restart");
 const FOUND_MATCH_WAIT_MSECS = 1000;
@@ -23,6 +24,7 @@ let num = 0;
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
+resetBestScore.addEventListener("click", resetScore);
 
 function startGame() {
   startGameWindow.style.display = "none";
@@ -154,6 +156,12 @@ function updateBestScore() {
     window.localStorage.setItem("score", num);
     bestScore.textContent = window.localStorage.getItem("score");
   }
+}
+
+function resetScore() {
+  window.localStorage.clear();
+  window.localStorage.setItem("score", Infinity);
+  bestScore.textContent = "";
 }
 
 function isGameOver() {

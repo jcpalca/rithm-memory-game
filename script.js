@@ -5,6 +5,7 @@
 const startBtn = document.querySelector(".start-game-button")
 const totalShadow = document.querySelector(".total-shadow")
 const gameBoard = document.getElementById("game");
+const restartBtn = document.querySelector(".restart");
 const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
   "red", "blue", "green", "orange", "purple", "yellow",
@@ -15,11 +16,13 @@ let firstCard;
 let secondCard;
 let pauseGame = false;
 
-startBtn.addEventListener("click", startGame)
+startBtn.addEventListener("click", startGame);
+restartBtn.addEventListener("click", restartGame);
 
 function startGame() {
   document.querySelector(".start-game-window").style.display = "none";
-  document.querySelector(".total-shadow").style.display = "block"
+  document.querySelector(".total-shadow").style.display = "block";
+  window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
 
 const colors = shuffle(COLORS);
@@ -121,4 +124,22 @@ function checkForMatch() {
 function disableCards() {
   firstCard.removeEventListener("click", handleCardClick);
   secondCard.removeEventListener("click", handleCardClick);
+}
+
+function isGameOver() {
+  const unFlipped = document.querySelectorAll(".unflipped");
+  if(unFlipped.length === 0) {
+    document.querySelector(".total-shadow").style.display = "none";
+    document.querySelector(".win").style.display = "flex";
+  }
+}
+
+function restartGame() {
+  const cards = document.querySelectorAll(".card");
+  for(let card of cards) {
+    card.remove();
+  }
+  createCards(shuffle(COLORS));
+  document.querySelector(".total-shadow").style.display = "block";
+  document.querySelector(".win").style.display = "none";
 }

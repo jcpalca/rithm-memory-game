@@ -5,6 +5,7 @@
 const startBtn = document.querySelector(".start-game-button")
 const totalShadow = document.querySelector(".total-shadow")
 const gameBoard = document.getElementById("game");
+const guesses = document.querySelectorAll(".score");
 const restartBtn = document.querySelector(".restart");
 const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
@@ -15,6 +16,7 @@ let firstFlip = false;
 let firstCard;
 let secondCard;
 let pauseGame = false;
+let num = 0;
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
@@ -109,6 +111,8 @@ function handleCardClick() {
     secondCard = this;
     flipCard();
     checkForMatch();
+    num++;
+    updateScore();
   }
 }
 
@@ -124,6 +128,12 @@ function checkForMatch() {
 function disableCards() {
   firstCard.removeEventListener("click", handleCardClick);
   secondCard.removeEventListener("click", handleCardClick);
+}
+
+function updateScore() {
+  for(let guess of guesses) {
+    guess.textContent = num;
+  }
 }
 
 function isGameOver() {

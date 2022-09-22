@@ -26,17 +26,17 @@ startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
 resetBestScore.addEventListener("click", resetScore);
 
+
+const colors = shuffle(COLORS);
+
+createCards(colors);
+
 function startGame() {
   startGameWindow.style.display = "none";
   totalShadow.style.display = "block";
   isFirstGame();
   window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
-
-const colors = shuffle(COLORS);
-
-createCards(colors);
-
 
 /** Shuffle array items in-place and return shuffled array. */
 

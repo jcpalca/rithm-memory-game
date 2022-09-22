@@ -2,6 +2,8 @@
 
 /** Memory game: find matching pairs of cards and flip both of them. */
 
+const startBtn = document.querySelector(".start-game-button")
+const totalShadow = document.querySelector(".total-shadow")
 const gameBoard = document.getElementById("game");
 const FOUND_MATCH_WAIT_MSECS = 1000;
 const COLORS = [
@@ -12,6 +14,13 @@ let firstFlip = false;
 let firstCard;
 let secondCard;
 let pauseGame = false;
+
+startBtn.addEventListener("click", startGame)
+
+function startGame() {
+  document.querySelector(".start-game-window").style.display = "none";
+  document.querySelector(".total-shadow").style.display = "block"
+}
 
 const colors = shuffle(COLORS);
 

@@ -45,7 +45,7 @@ h1, h2, h3 {
   transform: scale(1);
 }
 
-.card:hover, .start-game-button:hover, .restart:hover {
+.card:hover, .start-game-button:hover, .restart:hover, .reset-best-score {
   cursor: pointer;
   transform: scale(.98);
   transition: transform .25s;
@@ -53,6 +53,17 @@ h1, h2, h3 {
 
 .unflipped {
   background-color: rgb(134, 138, 141) !important;
+}
+
+#reset-score-div {
+  display: flex;
+  justify-content: center;
+}
+
+#reset-score-div .reset-best-score {
+  width: 120px;
+  font-size: 16px;
+  margin-top: 20px;
 }
 
 /*==================================*/
@@ -67,7 +78,7 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
-.start-game-button, .restart {
+.start-game-button, .restart, .reset-best-score {
   width: 100px;
   height: 40px;
   margin-top: 10px;

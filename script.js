@@ -20,7 +20,6 @@ let firstCard;
 let secondCard;
 let pauseGame = false;
 let num = 0;
-let best = Infinity;
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
@@ -28,6 +27,12 @@ restartBtn.addEventListener("click", restartGame);
 function startGame() {
   startGameWindow.style.display = "none";
   totalShadow.style.display = "block";
+  if(window.localStorage.length === 0) {
+    window.localStorage.setItem("score", Infinity);
+  }
+  else {
+    bestScore.textContent = window.localStorage.getItem("score");
+  }
   window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
 
@@ -141,9 +146,9 @@ function updateScore() {
 }
 
 function updateBestScore() {
-  if(num < best) {
-    bestScore.textContent = num;
-    best = num;
+  if(num < window.localStorage.getItem("score")) {
+    window.localStorage.setItem("score", num);
+    bestScore.textContent = window.localStorage.getItem("score");
   }
 }
 

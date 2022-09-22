@@ -6,6 +6,7 @@ const startGameWindow = document.querySelector(".start-game-window");
 const startBtn = document.querySelector(".start-game-button");
 const totalShadow = document.querySelector(".total-shadow");
 const gameBoard = document.getElementById("game");
+const bestScore = document.querySelector(".best-score")
 const guesses = document.querySelectorAll(".score");
 const winScreen = document.querySelector(".win");
 const restartBtn = document.querySelector(".restart");
@@ -19,6 +20,7 @@ let firstCard;
 let secondCard;
 let pauseGame = false;
 let num = 0;
+let best = Infinity;
 
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
@@ -138,6 +140,13 @@ function updateScore() {
   }
 }
 
+function updateBestScore() {
+  if(num < best) {
+    bestScore.textContent = num;
+    best = num;
+  }
+}
+
 function isGameOver() {
   const unFlipped = document.querySelectorAll(".unflipped");
   if(unFlipped.length === 0) {
@@ -154,6 +163,7 @@ function restartGame() {
   createCards(shuffle(COLORS));
   totalShadow.style.display = "block";
   winScreen.style.display = "none";
+  updateBestScore();
   num = 0;
   updateScore();
 }

@@ -6,9 +6,11 @@ const startGameWindow = document.querySelector(".start-game-window");
 const startBtn = document.querySelector(".start-game-button");
 const numCards = document.querySelector(".num-cards");
 const totalShadow = document.querySelector(".total-shadow");
-const bestScore = document.querySelector(".best-score")
+const bestScore = document.querySelector(".best-score");
+const bestTime = document.querySelector(".best-time");
 const guesses = document.querySelectorAll(".score");
-const resetBestScore = document.querySelector(".reset-best-score")
+const gameTimer = document.querySelectorAll(".timer")
+const resetLeaderboard = document.querySelector(".reset-leaderboard");
 const winScreen = document.querySelector(".win");
 const restartBtn = document.querySelector(".restart");
 const backToStart = document.querySelector(".back-to-start");
@@ -21,12 +23,15 @@ let secondCard;
 let pauseGame = false;
 let num = 0;
 let checkGameOver;
+let timer;
+let totalSeconds = 0;
+let timeTextContent;
 
 numCards.addEventListener("input", isValidNum);
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
 backToStart.addEventListener("click", returnToStart);
-resetBestScore.addEventListener("click", resetScore);
+resetLeaderboard.addEventListener("click", resetScore);
 
 function generateRandomColor() {
   const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0").toUpperCase();
@@ -54,7 +59,7 @@ function pasteColor() {
 }
 
 function isValidNum() {
-  if(+numCards.value % 2 !== 0 || +numCards.value === 0 || +numCards.value < 2 || +numCards.value > 16) {
+  if(+numCards.value % 2 !== 0 || +numCards.value === 0 || +numCards.value < 8 || +numCards.value > 16) {
     startBtn.disabled = true;
   }
   else {
@@ -69,6 +74,7 @@ function startGame() {
   createCards(shuffle(COLORS));
   isFirstGame();
   checkGameOver = window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
+  timer = window.setInterval(countTimer, FOUND_MATCH_WAIT_MSECS)
 }
 
 /** Shuffle array items in-place and return shuffled array. */
@@ -179,6 +185,8 @@ function updateScore() {
 function isFirstGame() {
   if(window.localStorage.length === 0) {
     window.localStorage.setItem("score", 999999999);
+    window.localStorage.setItem("time", 999999999);
+    window.localStorage.setItem("timeFormatted", undefined)
   }
   else {
     if(window.localStorage.getItem("score") >= 999999999) {
@@ -187,6 +195,7 @@ function isFirstGame() {
     else {
       bestScore.textContent = window.localStorage.getItem("score");
     }
+    bestTime.textContent = window.localStorage.getItem("timeFormatted");
   }
 }
 
@@ -197,10 +206,21 @@ function updateBestScore() {
   }
 }
 
+function updateBestTime() {
+  if(totalSeconds < window.localStorage.getItem("time")) {
+    window.localStorage.setItem("time", totalSeconds);
+    window.localStorage.setItem("timeFormatted", timeTextContent)
+    bestTime.textContent = timeTextContent;
+  }
+}
+
 function resetScore() {
   window.localStorage.clear();
   window.localStorage.setItem("score", 999999999);
+  window.localStorage.setItem("time", 999999999);
+  window.localStorage.setItem("timeFormatted", undefined)
   bestScore.textContent = "";
+  bestTime.textContent = "";
 }
 
 function isGameOver() {
@@ -209,7 +229,9 @@ function isGameOver() {
     totalShadow.style.display = "none";
     winScreen.style.display = "flex";
     updateBestScore();
+    updateBestTime();
     clearInterval(checkGameOver);
+    clearInterval(timer);
   }
 }
 
@@ -219,8 +241,10 @@ function restartGame() {
   totalShadow.style.display = "block";
   winScreen.style.display = "none";
   num = 0;
+  totalSeconds = 0;
   updateScore();
   checkGameOver = window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
+  timer = window.setInterval(countTimer, FOUND_MATCH_WAIT_MSECS);
 }
 
 function returnToStart() {
@@ -228,6 +252,7 @@ function returnToStart() {
   COLORS = [];
   COLORSCOPY = [];
   num = 0;
+  totalSeconds = 0;
   updateScore();
   winScreen.style.display = "none";
   startGameWindow.style.display = "flex";
@@ -237,5 +262,15 @@ function deleteCards() {
   const cards = document.querySelectorAll(".card");
   for(let card of cards) {
     card.remove();
+  }
+}
+
+function countTimer() {
+  ++totalSeconds;
+  let minute = Math.floor((totalSeconds) / 60);
+  let seconds = totalSeconds - (minute * 60);
+  for(let time of gameTimer) {
+    timeTextContent = time.textContent;
+    time.textContent = (minute >= 10 ? minute : "0" + minute) + ":" + (seconds >= 10 ? seconds : "0" + seconds);
   }
 }

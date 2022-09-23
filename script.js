@@ -4,38 +4,71 @@
 
 const startGameWindow = document.querySelector(".start-game-window");
 const startBtn = document.querySelector(".start-game-button");
+const numCards = document.querySelector(".num-cards");
 const totalShadow = document.querySelector(".total-shadow");
-const gameBoard = document.getElementById("game");
 const bestScore = document.querySelector(".best-score")
 const guesses = document.querySelectorAll(".score");
 const resetBestScore = document.querySelector(".reset-best-score")
 const winScreen = document.querySelector(".win");
 const restartBtn = document.querySelector(".restart");
+const backToStart = document.querySelector(".back-to-start");
 const FOUND_MATCH_WAIT_MSECS = 1000;
-const COLORS = [
-  "red", "blue", "green", "orange", "purple", "yellow",
-  "red", "blue", "green", "orange", "purple", "yellow",
-];
+let COLORS = [];
+let COLORSCOPY = [];
 let firstFlip = false;
 let firstCard;
 let secondCard;
 let pauseGame = false;
 let num = 0;
+let checkGameOver;
 
+numCards.addEventListener("input", isValidNum);
 startBtn.addEventListener("click", startGame);
 restartBtn.addEventListener("click", restartGame);
+backToStart.addEventListener("click", returnToStart);
 resetBestScore.addEventListener("click", resetScore);
 
+function generateRandomColor() {
+  const randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0").toUpperCase();
+  return randomColor;
+}
 
-const colors = shuffle(COLORS);
+function addRandomColor() {
+  for(let i = 0; i < numCards.value / 2; i++) {
+    COLORS.push(generateRandomColor());
+  }
+  copyColor();
+  pasteColor();
+}
 
-createCards(colors);
+function copyColor() {
+  for(let color of COLORS) {
+    COLORSCOPY.push(color);
+  }
+}
+
+function pasteColor() {
+  for(let color of COLORSCOPY) {
+    COLORS.push(color);
+  }
+}
+
+function isValidNum() {
+  if(+numCards.value % 2 !== 0 || +numCards.value === 0 || +numCards.value < 2 || +numCards.value > 16) {
+    startBtn.disabled = true;
+  }
+  else {
+    startBtn.disabled = false;
+  }
+}
 
 function startGame() {
   startGameWindow.style.display = "none";
   totalShadow.style.display = "block";
+  addRandomColor();
+  createCards(shuffle(COLORS));
   isFirstGame();
-  window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
+  checkGameOver = window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
 }
 
 /** Shuffle array items in-place and return shuffled array. */
@@ -64,10 +97,11 @@ function shuffle(items) {
  */
 
 function createCards(colors) {
+  const gameBoard = document.getElementById("game");
   for (let color of colors) {
     // missing code here ...
     let card = document.createElement("div");
-    card.classList.add(color, "card", "unflipped");
+    card.classList.add("card", "unflipped");
     card.dataset.color = color;
     card.addEventListener("click", handleCardClick);
     card.style = `background-color: ${color};`;
@@ -144,10 +178,15 @@ function updateScore() {
 
 function isFirstGame() {
   if(window.localStorage.length === 0) {
-    window.localStorage.setItem("score", Infinity);
+    window.localStorage.setItem("score", 999999999);
   }
   else {
-    bestScore.textContent = window.localStorage.getItem("score");
+    if(window.localStorage.getItem("score") >= 999999999) {
+      bestScore.textContent = "";
+    }
+    else {
+      bestScore.textContent = window.localStorage.getItem("score");
+    }
   }
 }
 
@@ -160,7 +199,7 @@ function updateBestScore() {
 
 function resetScore() {
   window.localStorage.clear();
-  window.localStorage.setItem("score", Infinity);
+  window.localStorage.setItem("score", 999999999);
   bestScore.textContent = "";
 }
 
@@ -170,17 +209,33 @@ function isGameOver() {
     totalShadow.style.display = "none";
     winScreen.style.display = "flex";
     updateBestScore();
+    clearInterval(checkGameOver);
   }
 }
 
 function restartGame() {
-  const cards = document.querySelectorAll(".card");
-  for(let card of cards) {
-    card.remove();
-  }
+  deleteCards();
   createCards(shuffle(COLORS));
   totalShadow.style.display = "block";
   winScreen.style.display = "none";
   num = 0;
   updateScore();
+  checkGameOver = window.setInterval(isGameOver, FOUND_MATCH_WAIT_MSECS);
+}
+
+function returnToStart() {
+  deleteCards();
+  COLORS = [];
+  COLORSCOPY = [];
+  num = 0;
+  updateScore();
+  winScreen.style.display = "none";
+  startGameWindow.style.display = "flex";
+}
+
+function deleteCards() {
+  const cards = document.querySelectorAll(".card");
+  for(let card of cards) {
+    card.remove();
+  }
 }

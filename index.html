@@ -10,21 +10,28 @@
 <body>
   <div class="total-shadow">
     <h1>Memory Game</h1>
-    <h2>Best Score: <span class="best-score"></span></h2>
-    <h2>Guesses: <span class="score">0</span></h2>
-    <div id="reset-score-div">
-      <button class="reset-best-score">Reset best score</button>
+    <div class="high-scores">
+      <h2>Best Score: <span class="best-score"></span></h2>
+      <h2>Best Time: <span class="best-time"></span></h2>
+    </div>
+    <div class="current-scores">
+      <h2>Guesses: <span class="score">0</span></h2>
+      <h2>Time: <span class="timer">0</span></h2>
+    </div>
+    <div id="reset-leader-div">
+      <button class="reset-leaderboard">Reset leaderboard</button>
     </div>
     <div id="game"></div>
   </div>
   <div class="start-game-window">
     <h2>How many cards?</h2>
-    <input type="number" class="num-cards" step="2" min="2" max="16">
+    <h3 class="options">Options: 8 - 16 cards (even)</h3>
+    <input type="number" class="num-cards" step="2" min="8" max="16">
     <button class="start-game-button" disabled>Start Game</button>
   </div>
   <div class="win">
     <h2>Congratulations!</h2>
-    <h3>You took <span class="score">0</span> guesses.</h3>
+    <h3>You took <span class="score">0</span> guesses in <span class="timer">0</span></h3>
     <button class="restart">Play again</button>
     <button class="back-to-start">Change cards</button>
   </div>

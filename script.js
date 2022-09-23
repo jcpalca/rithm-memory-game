@@ -186,7 +186,7 @@ function isFirstGame() {
   if(window.localStorage.length === 0) {
     window.localStorage.setItem("score", 999999999);
     window.localStorage.setItem("time", 999999999);
-    window.localStorage.setItem("timeFormatted", undefined)
+    window.localStorage.setItem("timeFormatted", 999999999)
   }
   else {
     if(window.localStorage.getItem("score") >= 999999999) {
@@ -195,7 +195,12 @@ function isFirstGame() {
     else {
       bestScore.textContent = window.localStorage.getItem("score");
     }
-    bestTime.textContent = window.localStorage.getItem("timeFormatted");
+    if(window.localStorage.getItem("timeFormatted") >= 999999999) {
+      bestTime.textContent = "";
+    }
+    else {
+      bestTime.textContent = window.localStorage.getItem("timeFormatted");
+    }
   }
 }
 
@@ -218,7 +223,7 @@ function resetScore() {
   window.localStorage.clear();
   window.localStorage.setItem("score", 999999999);
   window.localStorage.setItem("time", 999999999);
-  window.localStorage.setItem("timeFormatted", undefined)
+  window.localStorage.setItem("timeFormatted", 999999999)
   bestScore.textContent = "";
   bestTime.textContent = "";
 }

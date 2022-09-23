@@ -169,6 +169,7 @@ function isGameOver() {
   if(unFlipped.length === 0) {
     totalShadow.style.display = "none";
     winScreen.style.display = "flex";
+    updateBestScore();
   }
 }
 
@@ -180,7 +181,6 @@ function restartGame() {
   createCards(shuffle(COLORS));
   totalShadow.style.display = "block";
   winScreen.style.display = "none";
-  updateBestScore();
   num = 0;
   updateScore();
 }

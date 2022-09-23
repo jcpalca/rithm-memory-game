@@ -61,7 +61,8 @@ h1, h2, h3 {
 }
 
 .unflipped {
-  background-color: rgb(134, 138, 141) !important;
+  background: url("card-sleeve/Majestic-Hini.jpg");
+  background-size: cover;
 }
 
 #reset-leader-div {

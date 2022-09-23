@@ -31,7 +31,7 @@ h1, h2, h3 {
 #game {
   width: 750px;
   height: 750px;
-  margin: 50px auto 0;
+  margin: 20px auto 0;
   display: flex;
   flex-wrap: wrap;
 }
@@ -45,7 +45,7 @@ h1, h2, h3 {
   transform: scale(1);
 }
 
-.card:hover, .start-game-button:hover, .restart:hover, .reset-best-score {
+.card:hover, .start-game-button:hover, .restart:hover, .reset-best-score, .back-to-start {
   cursor: pointer;
   transform: scale(.98);
   transition: transform .25s;
@@ -78,7 +78,7 @@ h1, h2, h3 {
   flex-direction: column;
 }
 
-.start-game-button, .restart, .reset-best-score {
+.start-game-button, .restart, .reset-best-score, .back-to-start {
   width: 100px;
   height: 40px;
   margin-top: 10px;
@@ -87,7 +87,23 @@ h1, h2, h3 {
   background-color:rgb(134, 138, 141);
   border-radius: 10px;
   transform: scale(1);
-  margin: 10 auto 0;
+  margin: 20px auto 0;
+}
+
+.start-game-button:disabled:hover {
+  cursor: not-allowed;
+  transform: scale(1);
+}
+
+.start-game-window h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 /*==================================*/
@@ -95,4 +111,8 @@ h1, h2, h3 {
 /*==================================*/
 .win {
   display: none;
+}
+
+.back-to-start {
+  width: 115px;
 }
